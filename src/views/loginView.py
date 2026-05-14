@@ -2,35 +2,11 @@ import flet as ft
 
 def LoginView(page: ft.Page, auth_controller):
 
+    #logica
     def rellenar_campos(datos):
         correo.value = datos.get('email', '')
         contraseña.focus()
         page.update()
-
-    correo = ft.TextField(
-        label="Correo electrónico",
-        prefix_icon=ft.Icons.PERSON,
-        width=400,
-        border_radius=10,
-        border_color=ft.Colors.CYAN_400,
-        color=ft.Colors.WHITE,
-        label_style=ft.TextStyle(color=ft.Colors.CYAN_200),
-        keyboard_type=ft.KeyboardType.EMAIL
-    )
-
-    contraseña = ft.TextField(
-        label="Contraseña",
-        prefix_icon=ft.Icons.KEY,
-        password=True,
-        can_reveal_password=True,
-        width=400,
-        border_radius=10,
-        border_color=ft.Colors.CYAN_400,
-        color=ft.Colors.WHITE,
-        label_style=ft.TextStyle(color=ft.Colors.CYAN_200)
-    )
-    
-    mensaje = ft.Text("", color=ft.Colors.RED_400)
 
     def mostrar_snackbar(mensaje_texto, color=ft.Colors.GREEN):
         page.snack_bar = ft.SnackBar(
@@ -70,74 +46,89 @@ def LoginView(page: ft.Page, auth_controller):
             mensaje.color = ft.Colors.RED_400
             page.update()
 
+    #diseño
+    
+    correo = ft.TextField(
+        label="Correo electrónico",
+        prefix_icon=ft.Icons.PERSON_OUTLINE,
+        width=380,
+        border_radius=12,
+        border_color=ft.Colors.CYAN_400,
+        color=ft.Colors.WHITE,
+        label_style=ft.TextStyle(color=ft.Colors.CYAN_200),
+        bgcolor=ft.Colors.BLUE_GREY_800,
+    )
+
+    contraseña = ft.TextField(
+        label="Contraseña",
+        prefix_icon=ft.Icons.LOCK_OUTLINE,
+        password=True,
+        can_reveal_password=True,
+        width=380,
+        border_radius=12,
+        border_color=ft.Colors.CYAN_400,
+        color=ft.Colors.WHITE,
+        label_style=ft.TextStyle(color=ft.Colors.CYAN_200),
+        bgcolor=ft.Colors.BLUE_GREY_800,
+        on_submit=login_click
+    )
+    
+    mensaje = ft.Text("", color=ft.Colors.RED_400)
+
     iniciar_sesion = ft.ElevatedButton(
-        "Iniciar sesión",
-        width=250,
+        "ENTRAR AL SISTEMA",
+        width=380,
+        height=50,
         on_click=login_click,
         style=ft.ButtonStyle(
-            bgcolor=ft.Colors.CYAN_500,
+            bgcolor=ft.Colors.CYAN_600,
             color=ft.Colors.WHITE,
-            padding=20,
             shape=ft.RoundedRectangleBorder(radius=12),
         ),
     )
     
     btn_registro = ft.TextButton(
-        "¿No tienes cuenta? Regístrate",
+        "¿No tienes cuenta? Regístrate aquí",
         on_click=lambda _: page.go("/register"),
-        style=ft.ButtonStyle(
-            color=ft.Colors.CYAN_200
-        )
+        style=ft.ButtonStyle(color=ft.Colors.CYAN_200)
     )
-    
-    contraseña.on_submit = login_click
 
     return ft.View(
         route="/",
         bgcolor=ft.Colors.BLUE_GREY_900,
         vertical_alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-        appbar=ft.AppBar(
-            title=ft.Text("SIGE - Login"),
-            bgcolor=ft.Colors.CYAN_700,
-            color=ft.Colors.WHITE
-        ),
         controls=[
-            ft.Column(
-                [
-                    ft.Text(
-                        "Acceso al Sistema",
-                        size=35,
-                        weight="bold",
-                        color=ft.Colors.CYAN_300
-                    ),
-
-                    ft.Container(height=10),
-
-                    correo,
-
-                    ft.Container(height=10),
-
-                    contraseña,
-
-                    ft.Container(height=10),
-
-                    mensaje,
-
-                    ft.Container(height=10),
-
-                    ft.Row(
-                        [iniciar_sesion],
-                        alignment=ft.MainAxisAlignment.CENTER
-                    ),
-
-                    ft.Container(height=10),
-
-                    btn_registro
-                ],
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                tight=True,
-                spacing=10
+            ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Icon(ft.Icons.ACCOUNT_CIRCLE_SHARP, size=90, color=ft.Colors.CYAN_400),
+                        ft.Text("Iniciar Sesión", size=28, weight="bold", color=ft.Colors.CYAN_100),
+                        ft.Divider(height=10, color=ft.Colors.TRANSPARENT),
+                        correo,
+                        contraseña,
+                        mensaje,
+                        ft.Container(height=5),
+                        iniciar_sesion,
+                        btn_registro
+                    ],
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    spacing=15,
+                ),
+                padding=40,
+                border_radius=25,
+                # Agrege un borde y sombra para darle un efecto de tarjetass
+                border=ft.Border(
+                    top=ft.BorderSide(2, ft.Colors.CYAN_800),
+                    bottom=ft.BorderSide(2, ft.Colors.CYAN_800),
+                    left=ft.BorderSide(2, ft.Colors.CYAN_800),
+                    right=ft.BorderSide(2, ft.Colors.CYAN_800)
+                ),
+                shadow=ft.BoxShadow(
+                    blur_radius=30, 
+                    color=ft.Colors.BLACK45,
+                    offset=ft.Offset(0, 10)
+                )
             )
         ]
     )
