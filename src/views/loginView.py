@@ -12,7 +12,9 @@ def LoginView(page: ft.Page, auth_controller):
         prefix_icon=ft.Icons.PERSON,
         width=400,
         border_radius=10,
-        border_color="purple",
+        border_color=ft.Colors.CYAN_400,
+        color=ft.Colors.WHITE,
+        label_style=ft.TextStyle(color=ft.Colors.CYAN_200),
         keyboard_type=ft.KeyboardType.EMAIL
     )
 
@@ -23,10 +25,12 @@ def LoginView(page: ft.Page, auth_controller):
         can_reveal_password=True,
         width=400,
         border_radius=10,
-        border_color="purple"
+        border_color=ft.Colors.CYAN_400,
+        color=ft.Colors.WHITE,
+        label_style=ft.TextStyle(color=ft.Colors.CYAN_200)
     )
     
-    mensaje = ft.Text("", color="red")
+    mensaje = ft.Text("", color=ft.Colors.RED_400)
 
     def mostrar_snackbar(mensaje_texto, color=ft.Colors.GREEN):
         page.snack_bar = ft.SnackBar(
@@ -40,7 +44,7 @@ def LoginView(page: ft.Page, auth_controller):
     def login_click(e):
         if not correo.value or not contraseña.value:
             mensaje.value = "Por favor, llene todos los campos"
-            mensaje.color = "red"
+            mensaje.color = ft.Colors.RED_400
             page.update()
             return
         
@@ -63,7 +67,7 @@ def LoginView(page: ft.Page, auth_controller):
             page.go("/dashboard")
         else:
             mensaje.value = msg
-            mensaje.color = "red"
+            mensaje.color = ft.Colors.RED_400
             page.update()
 
     iniciar_sesion = ft.ElevatedButton(
@@ -71,7 +75,7 @@ def LoginView(page: ft.Page, auth_controller):
         width=250,
         on_click=login_click,
         style=ft.ButtonStyle(
-            bgcolor=ft.Colors.PURPLE_200,
+            bgcolor=ft.Colors.CYAN_500,
             color=ft.Colors.WHITE,
             padding=20,
             shape=ft.RoundedRectangleBorder(radius=12),
@@ -80,36 +84,55 @@ def LoginView(page: ft.Page, auth_controller):
     
     btn_registro = ft.TextButton(
         "¿No tienes cuenta? Regístrate",
-        on_click=lambda _: page.go("/register")
+        on_click=lambda _: page.go("/register"),
+        style=ft.ButtonStyle(
+            color=ft.Colors.CYAN_200
+        )
     )
     
     contraseña.on_submit = login_click
 
     return ft.View(
         route="/",
+        bgcolor=ft.Colors.BLUE_GREY_900,
         vertical_alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         appbar=ft.AppBar(
             title=ft.Text("SIGE - Login"),
-            bgcolor=ft.Colors.PURPLE_200,
+            bgcolor=ft.Colors.CYAN_700,
             color=ft.Colors.WHITE
         ),
         controls=[
             ft.Column(
                 [
-                    ft.Text("Acceso al Sistema", size=35, weight="bold", color="purple"),
+                    ft.Text(
+                        "Acceso al Sistema",
+                        size=35,
+                        weight="bold",
+                        color=ft.Colors.CYAN_300
+                    ),
+
                     ft.Container(height=10),
+
                     correo,
+
                     ft.Container(height=10),
+
                     contraseña,
+
                     ft.Container(height=10),
+
                     mensaje,
+
                     ft.Container(height=10),
+
                     ft.Row(
                         [iniciar_sesion],
                         alignment=ft.MainAxisAlignment.CENTER
                     ),
+
                     ft.Container(height=10),
+
                     btn_registro
                 ],
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -118,4 +141,3 @@ def LoginView(page: ft.Page, auth_controller):
             )
         ]
     )
-
