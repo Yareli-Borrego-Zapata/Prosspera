@@ -8,7 +8,7 @@ class UsuarioModel:
     def email_existe(self, email):
         conn = self.db.get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT id_usuario FROM usuario WHERE email = %s", (email,))
+        cursor.execute("SELECT id_usuario FROM usuarios WHERE email = %s", (email,))
         existe = cursor.fetchone() is not None
         conn.close()
         return existe
@@ -21,7 +21,7 @@ class UsuarioModel:
         cursor = conn.cursor()
         try:
             cursor.execute(
-            """INSERT INTO usuario (nombre, apellido, email, password, fecha_registro) VALUES (%s, %s, %s, %s, NOW())""",
+            """INSERT INTO usuarios (nombre, apellido, email, password, fecha_registro) VALUES (%s, %s, %s, %s, NOW())""",
             (usuario_data.nombre, usuario_data.apellido, usuario_data.email, hashed_pw.decode('utf-8'))
         )
             conn.commit()
@@ -35,7 +35,7 @@ class UsuarioModel:
     def validar_login(self, email, password):
         conn = self.db.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM usuario WHERE email = %s", (email,))
+        cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
         user = cursor.fetchone()
         conn.close() 
     
