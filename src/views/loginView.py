@@ -75,6 +75,12 @@ def LoginView(page: ft.Page, auth_controller):
     
     mensaje = ft.Text("", color=ft.Colors.RED_400)
 
+    btn_olvido = ft.TextButton(
+        "¿Olvidaste tu contraseña?",
+        on_click=lambda _: page.go("/recovery"),
+        style=ft.ButtonStyle(color=ft.Colors.CYAN_400)
+    )
+
     iniciar_sesion = ft.ElevatedButton(
         "ENTRAR AL SISTEMA",
         width=380,
@@ -107,6 +113,7 @@ def LoginView(page: ft.Page, auth_controller):
                         ft.Divider(height=10, color=ft.Colors.TRANSPARENT),
                         correo,
                         contraseña,
+                        btn_olvido,  
                         mensaje,
                         ft.Container(height=5),
                         iniciar_sesion,
@@ -117,7 +124,6 @@ def LoginView(page: ft.Page, auth_controller):
                 ),
                 padding=40,
                 border_radius=25,
-                # Agrege un borde y sombra para darle un efecto de tarjetass
                 border=ft.Border(
                     top=ft.BorderSide(2, ft.Colors.CYAN_800),
                     bottom=ft.BorderSide(2, ft.Colors.CYAN_800),
