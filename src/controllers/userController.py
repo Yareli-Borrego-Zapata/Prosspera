@@ -68,32 +68,32 @@ class AuthController:
     def enviar_correo_recuperacion(self, correo_usuario):
         """Verifica existencia del correo y despacha el token por SMTP."""
         try:
-           
+            
             if not self.usuario_model.email_existe(correo_usuario):
                 print(f"Intento de recuperación fallido: {correo_usuario} no existe.")
                 return None
 
-            # 2. Generar código numérico aleatorio de 6 dígitos
+            #
             codigo_verificacion = "".join(secrets.choice("0123456789") for _ in range(6))
             
-           
+
             remitente = "tu_correo_emisor@gmail.com"
             password_aplicacion = "xxxx xxxx xxxx xxxx" 
             
             msg = MIMEMultipart()
             msg['From'] = remitente
             msg['To'] = correo_usuario
-            msg['Subject'] = "🔒 Código de Recuperación - Gestor de Finanzas"
+            msg['Subject'] = "Código de Recuperación - Gestor de Finanzas"
             
             cuerpo = (
                 f"Hola.\n\n"
                 f"Has solicitado restablecer tu acceso. Tu código temporal es:\n\n"
-                f"👉 {codigo_verificacion} 👈\n\n"
+                f"{codigo_verificacion}\n\n"
                 f"Si no solicitaste este cambio, puedes ignorar este correo de forma segura."
             )
             msg.attach(MIMEText(cuerpo, 'plain'))
             
-         
+
             server = smtplib.SMTP('://gmail.com', 587)
             server.starttls()
             server.login(remitente, password_aplicacion)
@@ -114,7 +114,7 @@ class AuthController:
             sal = bcrypt.gensalt()
             hash_password = bcrypt.hashpw(bytes_password, sal)
             
-     
+        
             hash_str = hash_password.decode('utf-8')
 
             exito = self.usuario_model.actualizar_password_db(correo_usuario, hash_str)

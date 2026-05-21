@@ -2,7 +2,6 @@ import flet as ft
 
 def LoginView(page: ft.Page, auth_controller):
 
-    #logica
     def rellenar_campos(datos):
         correo.value = datos.get('email', '')
         contraseña.focus()
@@ -16,6 +15,7 @@ def LoginView(page: ft.Page, auth_controller):
         )
         page.snack_bar.open = True
         page.update()
+        
 
     def login_click(e):
         if not correo.value or not contraseña.value:

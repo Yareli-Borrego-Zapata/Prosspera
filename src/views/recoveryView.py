@@ -64,7 +64,6 @@ def RecoveryView(page: ft.Page, auth_controller):
             page.update()
             return
             
-        # Ejecuta la consulta SQL en el backend
         exito, msg = auth_controller.actualizar_password(correo.value, nueva_pass.value)
         
         if exito:
@@ -113,7 +112,7 @@ def RecoveryView(page: ft.Page, auth_controller):
         spacing=12
     )
 
-    # --- PASO 2 (Formulario de nueva clave) ---
+
     token_input = ft.TextField(label="Código de verificación (6 dígitos)", prefix_icon=ft.Icons.PIN, **input_style)
     nueva_pass = ft.TextField(label="Nueva Contraseña", prefix_icon=ft.Icons.LOCK_OUTLINE, password=True, can_reveal_password=True, **input_style)
     confirmar_pass = ft.TextField(label="Confirmar Nueva Contraseña", prefix_icon=ft.Icons.LOCK_RESET_OUTLINED, password=True, can_reveal_password=True, **input_style)

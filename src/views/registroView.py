@@ -4,7 +4,7 @@ from models.schemasModel import UsuarioSchema
 
 def RegisterView(page: ft.Page, auth_controller):
     
-    # Logica
+
     def mostrar_snackbar(mensaje_texto, color=ft.Colors.GREEN):
         page.snack_bar = ft.SnackBar(
             content=ft.Text(mensaje_texto),
