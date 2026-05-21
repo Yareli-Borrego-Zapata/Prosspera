@@ -3,6 +3,12 @@
 Nuestro proyecto consiste en desarrollar una aplicación multiplataforma enfocada en ayudar a las personas a llevar un mejor control de su dinero de una manera sencilla, visual y fácil de entender. La idea nace porque muchas veces administrar los gastos personales se vuelve complicado o aburrido, especialmente para jóvenes o estudiantes que apenas comienzan a organizar sus finanzas.
 El propósito principal es crear una herramienta que permita registrar ingresos y gastos diarios de forma rápida y práctica, evitando métodos más incómodos como libretas, notas o cálculos manuales. Buscamos que la aplicación no solo sirva para guardar números, sino también para ayudar a las personas a desarrollar hábitos financieros más saludables.
 
+## Etapa 1:
+En esta etapa se completó el desarrollo del sistema de acceso, el cual incluye los módulos de Inicio de Sesión y Registro de Usuarios. Asimismo, se implementó una capa de validación de datos en tiempo real para garantizar que la información introducida por el usuario (como correos electrónicos y contraseñas) cumpla con los requisitos.
+
+## Etapa 2:
+En esta etapa se implemento la funcion de recuperacion de contraseña, donde el usuario puede solicitar un cambio de contraseña y envía automáticamente un código de verificación al correo electrónico previamente registrado.
+
 
 ## Integrantes:
 - Borrego Zapata Yareli Estrella
