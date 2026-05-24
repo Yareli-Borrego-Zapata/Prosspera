@@ -3,6 +3,7 @@ from controllers.userController import AuthController
 from views.loginView import LoginView
 from views.registroView import RegisterView  
 from views.recoveryView import RecoveryView
+from views.dashboardView import DashboardView
 
 def start(page: ft.Page):
     page.title = "Sistema SIGE"
@@ -20,7 +21,8 @@ def start(page: ft.Page):
             page.views.append(RegisterView(page, auth_ctrl))
         elif page.route == "/recovery": 
             page.views.append(RecoveryView(page, auth_ctrl))
-
+        elif page.route == "/dashboard":
+            page.views.append(DashboardView(page))
     
         if not page.views:
             page.views.append(
