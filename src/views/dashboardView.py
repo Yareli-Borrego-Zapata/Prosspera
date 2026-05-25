@@ -13,7 +13,7 @@ def DashboardView(page: ft.Page):
 
         appbar=ft.AppBar(
             title=ft.Text(
-                "Dashboard",
+                "PROSSPERA",
                 color=ft.Colors.WHITE
             ),
             bgcolor=ft.Colors.CYAN_700,
@@ -37,7 +37,7 @@ def DashboardView(page: ft.Page):
                         ),
 
                         ft.Text(
-                            f"Bienvenido, {nombre}",
+                            f"Bienvenid@, {nombre}",
                             size=28,
                             weight=ft.FontWeight.BOLD,
                             color=ft.Colors.WHITE
