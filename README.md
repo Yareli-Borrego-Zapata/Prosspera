@@ -9,7 +9,7 @@ En esta etapa se completó el desarrollo del sistema de acceso, el cual incluye 
 ## Etapa 2:
 En esta etapa se implemento la funcion de recuperacion de contraseña, donde el usuario puede solicitar un cambio de contraseña y envía automáticamente un código de verificación al correo electrónico previamente registrado.
 
-#Etapa 3:
+## Etapa 3:
 En esta etapa se realizo la implementacion de una interfaz gráfica de usuario (GUI) completamente funcional con el framework Flet (versión 0.82.x) que se conecte a una base de datos relacional MySQL para realizar las operaciones CRUD (Create, Read, Update, Delete) sobre una tabla específica.
 
 
