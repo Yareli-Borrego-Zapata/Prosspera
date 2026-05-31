@@ -46,8 +46,6 @@ def LoginView(page: ft.Page, auth_controller):
             mensaje.color = ft.Colors.RED_400
             page.update()
 
-    #diseño
-    
     correo = ft.TextField(
         label="Correo electrónico",
         prefix_icon=ft.Icons.PERSON_OUTLINE,
@@ -78,7 +76,7 @@ def LoginView(page: ft.Page, auth_controller):
     btn_olvido = ft.TextButton(
         "¿Olvidaste tu contraseña?",
         on_click=lambda _: page.go("/recovery"),
-        style=ft.ButtonStyle(color=ft.Colors.CYAN_400)
+        style=ft.ButtonStyle(color=ft.Colors.CYAN_200)
     )
 
     iniciar_sesion = ft.ElevatedButton(
@@ -113,11 +111,16 @@ def LoginView(page: ft.Page, auth_controller):
                         ft.Divider(height=10, color=ft.Colors.TRANSPARENT),
                         correo,
                         contraseña,
-                        btn_olvido,  
                         mensaje,
-                        ft.Container(height=5),
                         iniciar_sesion,
-                        btn_registro
+                        ft.Column(
+                            [
+                                btn_olvido,
+                                btn_registro
+                            ],
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                            spacing=0
+                        )
                     ],
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     spacing=15,
