@@ -159,14 +159,7 @@ def DashboardView(page: ft.Page):
                     controls=[ft.Icon(ft.Icons.REMOVE_CIRCLE, size=40, color=ft.Colors.RED_400), ft.Text("Gastos", color=ft.Colors.WHITE)]
                 )
             ),
-            ft.Container(
-                width=100, height=100, bgcolor=ft.Colors.BLUE_GREY_800, border_radius=20,
-                on_click=lambda _: page.snack_bar or setattr(page, "snack_bar", ft.SnackBar(ft.Text("Módulo de reportes próximamente."), bgcolor=ft.Colors.CYAN_700)) or setattr(page.snack_bar, "open", True) or page.update(),
-                content=ft.Column(
-                    alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    controls=[ft.Icon(ft.Icons.PIE_CHART, size=40, color=ft.Colors.CYAN_300), ft.Text("Reportes", color=ft.Colors.WHITE)]
-                )
-            )
+            
         ]
     )
 
@@ -202,6 +195,6 @@ def DashboardView(page: ft.Page):
     return ft.View(
         route="/dashboard",
         bgcolor=ft.Colors.BLUE_GREY_900,
-        appbar=ft.AppBar(title=ft.Text("Dashboard Financiero"), center_title=True, bgcolor=ft.Colors.BLUE_GREY_900),
+        appbar=ft.AppBar(title=ft.Text("PROSSPERA"), center_title=True, bgcolor=ft.Colors.BLUE_GREY_900),
         controls=[ft.Container(expand=True, padding=20, content=ft.Column(scroll=ft.ScrollMode.AUTO, controls=[contenido]))]
     )

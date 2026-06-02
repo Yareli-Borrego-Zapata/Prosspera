@@ -19,9 +19,6 @@ def ProfileView(page: ft.Page):
 
         page.go("/")
 
-    # =====================================
-    # ELIMINAR CUENTA
-    # =====================================
 
     def eliminar_cuenta(e):
 
@@ -131,7 +128,7 @@ def ProfileView(page: ft.Page):
                     ft.Container(height=20),
 
                     ft.TextButton(
-                        "Volver al dashboard",
+                        "Volver al inicio",
                         on_click=lambda e: page.go("/dashboard")
                     )
                 ]
