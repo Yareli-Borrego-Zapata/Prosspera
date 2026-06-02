@@ -13,7 +13,7 @@ from views.profileView import ProfileView
 
 def start(page: ft.Page):
 
-    page.title = "Sistema SIGE"
+    page.title = "PROSSPERA"
 
     page.window_width = 450
     page.window_height = 700

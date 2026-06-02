@@ -191,10 +191,20 @@ def DashboardView(page: ft.Page):
     )
 
     actualizar_pantalla()
-
+    
     return ft.View(
         route="/dashboard",
         bgcolor=ft.Colors.BLUE_GREY_900,
-        appbar=ft.AppBar(title=ft.Text("PROSSPERA"), center_title=True, bgcolor=ft.Colors.BLUE_GREY_900),
+        appbar=ft.AppBar(
+            title=ft.Text(
+                "PROSSPERA", 
+                size=22, 
+                weight="bold", 
+                color=ft.Colors.WHITE, 
+                font_family="Roboto"
+            ), 
+            center_title=True, 
+            bgcolor=ft.Colors.BLUE_GREY_900
+        ),
         controls=[ft.Container(expand=True, padding=20, content=ft.Column(scroll=ft.ScrollMode.AUTO, controls=[contenido]))]
     )
