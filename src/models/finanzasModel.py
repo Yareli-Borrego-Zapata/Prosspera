@@ -96,7 +96,7 @@ class FinanzasModel:
             )
             presupuesto = cursor.fetchone()
             if presupuesto and float(presupuesto['gastado']) >= float(presupuesto['monto_limite']):
-                return True, "⚠️ Movimiento guardado, pero superaste el límite de presupuesto."
+                return True, "Movimiento guardado, pero superaste el límite de presupuesto."
             return True, "Movimiento guardado correctamente."
         except Exception as e:
             print(f"Error insertando transacción: {e}")
@@ -150,7 +150,7 @@ class FinanzasModel:
             cursor.execute("UPDATE metas_ahorro SET monto_actual = %s WHERE id_meta = %s", (nuevo_monto, id_meta))
             conn.commit()
             if nuevo_monto >= float(meta['monto_objetivo']):
-                return True, "🎉 ¡Felicidades! Alcanzaste tu meta de ahorro."
+                return True, "¡Felicidades! Alcanzaste tu meta de ahorro."
             return True, f"Abono registrado. Llevas ${nuevo_monto:.2f}."
         except Exception as e:
             print(f"Error abonando a meta: {e}")
