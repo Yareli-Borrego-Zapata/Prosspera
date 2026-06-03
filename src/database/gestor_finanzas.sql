@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-05-2026 a las 00:14:19
+-- Tiempo de generación: 02-06-2026 a las 23:32:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -65,6 +65,19 @@ CREATE TABLE `metas_ahorro` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `presupuestos`
+--
+
+CREATE TABLE `presupuestos` (
+  `id_presupuesto` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  `monto_limite` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `transacciones`
 --
 
@@ -110,6 +123,14 @@ ALTER TABLE `metas_ahorro`
   ADD KEY `fk_usuario_meta` (`id_usuario`);
 
 --
+-- Indices de la tabla `presupuestos`
+--
+ALTER TABLE `presupuestos`
+  ADD PRIMARY KEY (`id_presupuesto`),
+  ADD KEY `fk_usuario_presupuesto` (`id_usuario`),
+  ADD KEY `fk_categoria_presupuesto` (`id_categoria`);
+
+--
 -- Indices de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
@@ -141,6 +162,12 @@ ALTER TABLE `metas_ahorro`
   MODIFY `id_meta` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `presupuestos`
+--
+ALTER TABLE `presupuestos`
+  MODIFY `id_presupuesto` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
@@ -161,6 +188,13 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `metas_ahorro`
   ADD CONSTRAINT `fk_usuario_meta` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `presupuestos`
+--
+ALTER TABLE `presupuestos`
+  ADD CONSTRAINT `fk_categoria_presupuesto` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_usuario_presupuesto` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `transacciones`
