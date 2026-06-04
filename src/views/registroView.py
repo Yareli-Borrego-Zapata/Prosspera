@@ -24,8 +24,23 @@ def RegisterView(page: ft.Page, auth_controller):
             mensaje.color = ft.Colors.RED_400
             page.update()
             return
-        if len(password.value) < 6:
-            mensaje.value = "La contraseña debe tener al menos 6 caracteres"
+        if len(password.value) < 8:
+            mensaje.value = "La contraseña debe tener al menos 8 caracteres"
+            mensaje.color = ft.Colors.RED_400
+            page.update()
+            return
+        if not re.search(r'[A-Z]', password.value):
+            mensaje.value = "La contraseña debe tener al menos una mayúscula"
+            mensaje.color = ft.Colors.RED_400
+            page.update()
+            return
+        if not re.search(r'[a-z]', password.value):
+            mensaje.value = "La contraseña debe tener al menos una minúscula"
+            mensaje.color = ft.Colors.RED_400
+            page.update()
+            return
+        if not re.search(r'[0-9]', password.value):
+            mensaje.value = "La contraseña debe tener al menos un número"
             mensaje.color = ft.Colors.RED_400
             page.update()
             return
@@ -34,10 +49,16 @@ def RegisterView(page: ft.Page, auth_controller):
             mensaje.color = ft.Colors.RED_400
             page.update()
             return
-        usuario_data = UsuarioSchema(
-            nombre=nombre.value, apellido=apellido.value,
-            email=email.value, password=password.value
-        )
+        try:
+            usuario_data = UsuarioSchema(
+                nombre=nombre.value, apellido=apellido.value,
+                email=email.value, password=password.value
+            )
+        except Exception as ex:
+            mensaje.value = str(ex.errors()[0]['msg']).replace('Value error, ', '')
+            mensaje.color = ft.Colors.RED_400
+            page.update()
+            return
         exito, msg = auth_controller.registrar(usuario_data)
         if exito:
             mostrar_snackbar("¡Registro exitoso! Ahora inicia sesión", ft.Colors.GREEN)
@@ -61,8 +82,22 @@ def RegisterView(page: ft.Page, auth_controller):
     nombre = ft.TextField(label="Nombre(s)", prefix_icon=ft.Icons.PERSON_OUTLINE, **input_style)
     apellido = ft.TextField(label="Apellidos", prefix_icon=ft.Icons.PERSON_PIN_OUTLINED, **input_style)
     email = ft.TextField(label="Correo electrónico", prefix_icon=ft.Icons.EMAIL_OUTLINED, keyboard_type=ft.KeyboardType.EMAIL, **input_style)
-    password = ft.TextField(label="Contraseña", prefix_icon=ft.Icons.LOCK_OUTLINE, password=True, can_reveal_password=True, **input_style)
-    confirm_password = ft.TextField(label="Confirmar contraseña", prefix_icon=ft.Icons.LOCK_RESET_OUTLINED, password=True, can_reveal_password=True, **input_style)
+    password = ft.TextField(
+        label="Contraseña",
+        prefix_icon=ft.Icons.LOCK_OUTLINE,
+        password=True,
+        can_reveal_password=True,
+        hint_text="Mín. 8 chars, mayúscula, minúscula y número",
+        hint_style=ft.TextStyle(color=ft.Colors.WHITE38, size=11),
+        **input_style
+    )
+    confirm_password = ft.TextField(
+        label="Confirmar contraseña",
+        prefix_icon=ft.Icons.LOCK_RESET_OUTLINED,
+        password=True,
+        can_reveal_password=True,
+        **input_style
+    )
     mensaje = ft.Text("", color=ft.Colors.RED_400, size=13)
 
     return ft.View(
@@ -70,6 +105,16 @@ def RegisterView(page: ft.Page, auth_controller):
         bgcolor=ft.Colors.BLUE_GREY_900,
         vertical_alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        appbar=ft.AppBar(
+            leading=ft.IconButton(
+                icon=ft.Icons.ARROW_BACK_IOS_NEW_ROUNDED,
+                icon_color=ft.Colors.CYAN_400,
+                tooltip="Volver al inicio de sesión",
+                on_click=lambda _: page.go("/")
+            ),
+            bgcolor=ft.Colors.BLUE_GREY_900,
+            elevation=0,
+        ),
         controls=[
             ft.Container(
                 width=440,
@@ -95,7 +140,7 @@ def RegisterView(page: ft.Page, auth_controller):
                         ),
                         ft.Text("CREAR CUENTA", size=24, weight="bold", color=ft.Colors.CYAN_100),
                         ft.Text("Completa los datos para continuar", size=13, color=ft.Colors.WHITE54),
-                        ft.Container(height=4),
+                        ft.Container(height=2),
                         nombre,
                         apellido,
                         email,
