@@ -629,7 +629,7 @@ def DashboardView(page: ft.Page):
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 controls=[
                     ft.Column([
-                        ft.Text(f"Hola, {usuario['nombre']} 👋", size=22, weight="bold", color=ft.Colors.WHITE),
+                        ft.Text(f"Hola, {usuario['nombre']}", size=22, weight="bold", color=ft.Colors.WHITE),
                         ft.Text("Bienvenido a PROSSPERA", color=ft.Colors.WHITE54, size=13)
                     ], spacing=2),
                     ft.Row([

@@ -1,6 +1,5 @@
 from .databaseModel import Database
 import bcrypt
-
 class FinanzasModel:
     def __init__(self):
         self.db = Database()
@@ -24,11 +23,19 @@ class FinanzasModel:
     def obtener_resumen_financiero(self, id_usuario):
         conn = self.db.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT SUM(CASE WHEN c.tipo = 'Ingreso' THEN t.monto ELSE 0 END) as total_ingresos, SUM(CASE WHEN c.tipo = 'Gasto' THEN t.monto ELSE 0 END) as total_gastos FROM transacciones t JOIN categorias c ON t.id_categoria = c.id_categoria WHERE t.id_usuario = %s", (id_usuario,))
+        cursor.execute("""
+            SELECT 
+                COALESCE(SUM(CASE WHEN c.tipo = 'Ingreso' THEN t.monto ELSE 0 END), 0.0) as total_ingresos, 
+                COALESCE(SUM(CASE WHEN c.tipo = 'Gasto' THEN t.monto ELSE 0 END), 0.0) as total_gastos 
+            FROM transacciones t 
+            JOIN categorias c ON t.id_categoria = c.id_categoria 
+            WHERE t.id_usuario = %s
+        """, (id_usuario,))
         resumen = cursor.fetchone()
         conn.close()
-        ingresos = float(resumen['total_ingresos'] or 0.0)
-        gastos = float(resumen['total_gastos'] or 0.0)
+        
+        ingresos = float(resumen['total_ingresos'])
+        gastos = float(resumen['total_gastos'])
         return {"ingresos": ingresos, "gastos": gastos, "balance": ingresos - gastos}
 
     def obtener_historial_reciente(self, id_usuario):
@@ -90,12 +97,18 @@ class FinanzasModel:
                 (id_usuario, id_categoria, monto, descripcion)
             )
             conn.commit()
+            
             cursor.execute(
-                "SELECT p.monto_limite, COALESCE(SUM(t.monto), 0) as gastado FROM presupuestos p LEFT JOIN transacciones t ON p.id_categoria = t.id_categoria AND t.id_usuario = p.id_usuario WHERE p.id_usuario = %s AND p.id_categoria = %s GROUP BY p.monto_limite",
+                """SELECT p.monto_limite, COALESCE(SUM(t.monto), 0.0) as gastado 
+                FROM presupuestos p 
+                LEFT JOIN transacciones t ON p.id_categoria = t.id_categoria AND t.id_usuario = p.id_usuario 
+                WHERE p.id_usuario = %s AND p.id_categoria = %s 
+                GROUP BY p.monto_limite""",
                 (id_usuario, id_categoria)
             )
             presupuesto = cursor.fetchone()
-            if presupuesto and float(presupuesto['gastado']) >= float(presupuesto['monto_limite']):
+            
+            if presupuesto and float(presupuesto['gastado']) > float(presupuesto['monto_limite']):
                 return True, "Movimiento guardado, pero superaste el límite de presupuesto."
             return True, "Movimiento guardado correctamente."
         except Exception as e:
@@ -106,12 +119,26 @@ class FinanzasModel:
 
     def insertar_presupuesto(self, id_usuario, id_categoria, monto_limite):
         conn = self.db.get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         try:
+            
             cursor.execute(
-                "INSERT INTO presupuestos (id_usuario, id_categoria, monto_limite) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE monto_limite = %s",
-                (id_usuario, id_categoria, monto_limite, monto_limite)
+                "SELECT id_presupuesto FROM presupuestos WHERE id_usuario = %s AND id_categoria = %s",
+                (id_usuario, id_categoria)
             )
+            presupuesto_existente = cursor.fetchone()
+
+            if presupuesto_existente:
+                cursor.execute(
+                    "UPDATE presupuestos SET monto_limite = %s WHERE id_presupuesto = %s",
+                    (monto_limite, presupuesto_existente['id_presupuesto'])
+                )
+            else:
+                cursor.execute(
+                    "INSERT INTO presupuestos (id_usuario, id_categoria, monto_limite) VALUES (%s, %s, %s)",
+                    (id_usuario, id_categoria, monto_limite)
+                )
+            
             conn.commit()
             return True, "Presupuesto establecido correctamente."
         except Exception as e:

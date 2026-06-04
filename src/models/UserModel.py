@@ -94,7 +94,7 @@ class UsuarioModel:
         finally:
             conn.close()
 
-    def actualizar_password_db(self, email, hash_password):  # ← función nueva
+    def actualizar_password_db(self, email, hash_password):
         conn = self.db.get_connection()
         cursor = conn.cursor()
         try:
